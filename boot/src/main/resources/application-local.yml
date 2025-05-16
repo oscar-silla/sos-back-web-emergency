@@ -6,6 +6,12 @@ spring:
       format_sql: true
   datasource:
     url: jdbc:postgresql://localhost:${PORT}/${DATABASE_NAME}
-    username: sa
-    password: root
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baselineOnMigrate: true
+    user: ${FLYWAY_USERNAME}
+    password: ${FLYWAY_PASSWORD}
