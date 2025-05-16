@@ -18,6 +18,7 @@
     </properties>
 
     <dependencies>
+        <!-- INTERNAL DEPENDENCIES -->
         <dependency>
             <groupId>com.emergency.sos</groupId>
             <artifactId>com-emergency-sos-api-rest</artifactId>
