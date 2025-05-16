@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      format_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:${PORT}/${DATABASE_NAME}
+    username: sa
+    password: root
+    driver-class-name: org.postgresql.Driver
