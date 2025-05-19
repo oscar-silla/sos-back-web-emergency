@@ -7,4 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ContactJpaRepository
-    extends JpaRepository<ContactMO, String>, JpaSpecificationExecutor<ContactMO> {}
+    extends JpaRepository<ContactMO, Long>, JpaSpecificationExecutor<ContactMO> {}
