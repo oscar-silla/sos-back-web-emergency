@@ -1,5 +1,6 @@
 package com.emergency.sos.adapters;
 
+import com.emergency.sos.application.ports.driving.GetContactUseCasePort;
 import com.emergency.sos.application.ports.driving.SaveContactUseCasePort;
 import com.emergency.sos.mappers.ContactControllerMapper;
 import openapi.emergency_sos.api.ContactsApi;
@@ -19,16 +20,21 @@ public class ContactControllerAdapter implements ContactsApi {
   private final Logger log = LoggerFactory.getLogger(ContactControllerAdapter.class);
   private final ContactControllerMapper mapper;
   private final SaveContactUseCasePort saveContactUseCase;
+  private final GetContactUseCasePort getContactUseCase;
 
   public ContactControllerAdapter(
-      final ContactControllerMapper mapper, final SaveContactUseCasePort saveContactUseCase) {
+      final ContactControllerMapper mapper,
+      final SaveContactUseCasePort saveContactUseCase,
+      final GetContactUseCasePort getContactUseCase) {
     this.mapper = mapper;
     this.saveContactUseCase = saveContactUseCase;
+    this.getContactUseCase = getContactUseCase;
   }
 
   @Override
   public ResponseEntity<ContactResponseType> getContact(Long id) {
-    return null;
+    this.log.info("GET /emergency/v1/contacts with id: {}", id);
+    return ResponseEntity.ok(this.mapper.toContactResponseType(this.getContactUseCase.execute(id)));
   }
 
   @Override
@@ -38,7 +44,7 @@ public class ContactControllerAdapter implements ContactsApi {
 
   @Override
   public ResponseEntity<Void> postContact(ContactRequestBodyType contactRequestBodyType) {
-    this.log.info("/emergency/v1/contacts with body: {}", contactRequestBodyType.toString());
+    this.log.info("POST /emergency/v1/contacts with body: {}", contactRequestBodyType.toString());
     this.saveContactUseCase.execute(this.mapper.toContact(contactRequestBodyType));
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
