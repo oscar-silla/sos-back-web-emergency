@@ -1,17 +1,21 @@
 package com.emergency.sos.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity(name = "ContactMO")
 @Table(name = "contacts")
 public class ContactMO {
+  @Id
+  @SequenceGenerator(
+      name = "contacts_sequence_generator",
+      sequenceName = "contacts_seq",
+      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contacts_sequence_generator")
+  private Long id;
+
   @Column(name = "name", nullable = false)
   private String name;
 
-  @Id
   @Column(name = "phoneNumber", nullable = false)
   private String phoneNumber;
 
@@ -36,5 +40,13 @@ public class ContactMO {
 
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 }
