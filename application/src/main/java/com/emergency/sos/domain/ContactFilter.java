@@ -1,3 +1,3 @@
 package com.emergency.sos.domain;
 
-public record ContactFilter(String name, String phoneNumber) {}
+public record ContactFilter(Long id, String name, String phoneNumber) {}

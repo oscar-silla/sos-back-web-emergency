@@ -1,6 +1,7 @@
 package com.emergency.sos.application.services;
 
 import com.emergency.sos.application.exceptions.ConflictException;
+import com.emergency.sos.application.exceptions.NotFoundException;
 import com.emergency.sos.application.ports.driven.ContactRepositoryPort;
 import com.emergency.sos.domain.Contact;
 import com.emergency.sos.domain.ContactFilter;
@@ -16,11 +17,17 @@ public class ContactService {
 
   public void save(Contact contact) {
     this.contactRepository
-        .findOne(new ContactFilter(null, contact.getPhoneNumber()))
+        .findOne(new ContactFilter(null, null, contact.getPhoneNumber()))
         .ifPresent(
             c -> {
               throw new ConflictException();
             });
     this.contactRepository.save(contact);
+  }
+
+  public Contact findById(Long id) {
+    return this.contactRepository
+        .findOne(new ContactFilter(id, null, null))
+        .orElseThrow(NotFoundException::new);
   }
 }

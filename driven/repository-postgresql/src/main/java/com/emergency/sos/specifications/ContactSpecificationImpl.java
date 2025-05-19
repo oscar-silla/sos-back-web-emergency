@@ -14,6 +14,9 @@ public class ContactSpecificationImpl implements ContactSpecification {
   @Override
   public Specification<ContactMO> getSpecification(ContactFilter filter) {
     List<Specification<ContactMO>> specifications = new ArrayList<>();
+    if (filter.id() != null) {
+      specifications.add(this.equalsId(filter.id()));
+    }
     if (filter.name() != null) {
       specifications.add(this.equalsName(filter.name()));
     }
@@ -21,6 +24,10 @@ public class ContactSpecificationImpl implements ContactSpecification {
       specifications.add(this.equalsPhoneNumber(filter.phoneNumber()));
     }
     return specifications.stream().reduce(Specification::and).orElse(null);
+  }
+
+  private Specification<ContactMO> equalsId(Long id) {
+    return (root, query, cb) -> cb.equal(root.get(ContactMO_.ID), id);
   }
 
   private Specification<ContactMO> equalsName(String name) {
